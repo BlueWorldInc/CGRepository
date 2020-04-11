@@ -135,7 +135,9 @@ class Network {
 
     createLink(departStation, destStation) {
         var link = new Link(departStation);
-        link.addDestination(destStation);
+        if (destStation !== null) {
+            link.addDestination(destStation);
+        }
         this.links.push(link);
     }
 
@@ -233,14 +235,6 @@ class Algorithm {
             return visitedList;
         }
 
-        for (let i = 0; i < this.links.length; i++) {
-            if (departStation.getAcronyme() === this.links[i].getDepartureAcronyme()) {
-                departLink = this.links[i];
-                departFound = true;
-                break;
-            }
-        }
-
         departLink = this.network.getLink(departStation.getAcronyme());
 
         let currentLink = { link: departLink };
@@ -258,6 +252,11 @@ class Algorithm {
                 let iLink = this.network.getLink(currentLink.link.getDestinations()[i].getAcronyme());
                 let distanceToStart = this.distance(currentLink.link.getDeparture(), currentLink.link.getDestinations()[i])
                     + currentLink.link.distance;
+
+                if (iLink === undefined) {
+                        this.network.createLink(currentLink.link.getDestinations()[i], null);
+                        iLink = this.network.getLink(currentLink.link.getDestinations()[i].getAcronyme());
+                }
 
                 if (iLink.distance === null || iLink.distance > distanceToStart) {
                     iLink.distance = distanceToStart;
