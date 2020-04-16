@@ -1,12 +1,10 @@
-const DEVIATION = 0.055;
-const REMOVEDITEM = 11;
+const DEVIATION = 0.05;
+const REMOVEDITEM = 10;
 
 const N = parseInt(readline());
 let input = [];
 for (let i = 0; i < N; i++) {
     var inputs = readline();
-    //const num = parseInt(inputs[0]);
-    //const t = parseInt(inputs[1]);
     input.push(inputs);
 }
 
@@ -75,14 +73,11 @@ class Algorithm {
     o1() {
         let n = this.dataList.length;
         let avgTime = this.average().avgTime;
-        //let deviations = [];
         let s = 0;
         for (let i = 0; i < n; i++) {
             let d = Math.abs((this.dataList[i].time / avgTime) - 1);
-            //deviations.push(d);
             s += d;
         }
-        //printErr(s);
         let averageDeviation = s / n;
         return averageDeviation;
     }
@@ -91,15 +86,9 @@ class Algorithm {
         let n = this.dataList.length;
         let avgOlogN = this.average().avgOlogN;
         let s = 0;
-        //printErr(avgLog);
         for (let i = 0; i < n; i++) {
             let OlogN = this.dataList[i].ratio / (this.dataList[i].log / this.dataList[i].item);
             let d = Math.abs((OlogN / avgOlogN) - 1);
-            //printErr((this.dataList[i].ratio / this.dataList[i].log));
-            //printErr((this.dataList[i].ratio));
-            //printErr(this.dataList[i].log / this.dataList[i].item);
-            //printErr(this.dataList[i].ratio / (this.dataList[i].log / this.dataList[i].item));
-            //printErr(this.dataList[i].log);
             s += d;
         }
         let averageDeviation = s / n;
@@ -110,17 +99,9 @@ class Algorithm {
         let n = this.dataList.length;
         let avgOnlogN = this.average().avgOnlogN;
         let s = 0;
-        //printErr(avgLog);
         for (let i = 0; i < n; i++) {
             let OnlogN = ((this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item))) / (this.dataList[i].item );
             let d = Math.abs((OnlogN / avgOnlogN) - 1);
-            //printErr((this.dataList[i].ratio / this.dataList[i].log));
-            //printErr((this.dataList[i].ratio));
-            //printErr(this.dataList[i].log / this.dataList[i].item);
-            //let b = (this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item));
-            //let c = b / (this.dataList[i].item );
-            //printErr(c);            
-            //printErr(this.dataList[i].log);
             s += d;
         }
         let averageDeviation = s / n;
@@ -131,14 +112,9 @@ class Algorithm {
         let n = this.dataList.length;
         let avgOn2LogN = this.average().avgOn2LogN;
         let s = 0;
-        //printErr(avgLog);
         for (let i = 0; i < n; i++) {
             let On2LogN = ((this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item))) / (this.dataList[i].item * this.dataList[i].item);
             let d = Math.abs((On2LogN / avgOn2LogN) - 1);
-            //let b = (this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item));
-            //let c = b / (this.dataList[i].item) / this.dataList[i].item;
-            //printErr(c);  
-            
             s += d;
         }
         let averageDeviation = s / n;
@@ -149,16 +125,9 @@ class Algorithm {
         let n = this.dataList.length;
         let avgO2n = this.average().avgO2n;
         let s = 0;
-        //printErr(avgLog);
         for (let i = REMOVEDITEM; i < n; i++) {
             let O2n = this.dataList[i].time / (Math.pow(2, this.dataList[i].item));
             let d = Math.abs((O2n / avgO2n) - 1);
-            //printErr((this.dataList[i].ratio / this.dataList[i].log));
-            //printErr((this.dataList[i].ratio));
-            //printErr(this.dataList[i].log / this.dataList[i].item);
-            //printErr(avgO2n);
-            //printErr(this.dataList[i].time / (Math.pow(2, this.dataList[i].item)));
-            //printErr(this.dataList[i].log);
             s += d;
         }
         let averageDeviation = s / (n - REMOVEDITEM);
@@ -182,7 +151,6 @@ class Algorithm {
         let n = this.dataList.length;
         let avgOn2 = this.average().avgOn2;
         let s = 0;
-        //printErr(avgLog);
         for (let i = 0; i < n; i++) {
             let On2 = this.dataList[i].ratio / this.dataList[i].item;
             let d = Math.abs((On2 / avgOn2) - 1);
@@ -215,7 +183,7 @@ class Algorithm {
         let sumOn3 = 0;
         let sumO2n = 0;
         let n = this.dataList.length;
-        for (let i = REMOVEDITEM; i < n; i++) {
+        for (let i = 0; i < n; i++) {
             sumItem += this.dataList[i].item;
             sumTime += this.dataList[i].time;
             sumRatio += this.dataList[i].ratio;
@@ -223,15 +191,14 @@ class Algorithm {
             sumOnlogN += ((this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item))) / (this.dataList[i].item);
             sumOn2 += this.dataList[i].ratio / this.dataList[i].item;
             sumOn2LogN += ((this.dataList[i].ratio / this.dataList[i].item) / (this.dataList[i].log / (this.dataList[i].item * this.dataList[i].item))) / (this.dataList[i].item * this.dataList[i].item); 
-            //if (i >= REMOVEDITEM) {
+            if (i >= REMOVEDITEM) {
                 sumOn3 += this.dataList[i].ratio / (this.dataList[i].item * this.dataList[i].item);
                 sumO2n += this.dataList[i].time / (Math.pow(2, this.dataList[i].item));
-            //}
+            }
         }
-        n = n - REMOVEDITEM;
         return {avgItem: sumItem/n, avgTime: sumTime/n, avgRatio: sumRatio/n, 
                 avgOlogN: sumOlogN/n, avgOnlogN: sumOnlogN/n, avgOn2: sumOn2/n,
-                avgOn2LogN: sumOn2LogN/n, avgOn3: sumOn3/n, avgO2n: sumO2n/n};
+                avgOn2LogN: sumOn2LogN/n, avgOn3: sumOn3/(n - REMOVEDITEM), avgO2n: sumO2n/(n - REMOVEDITEM)};
     }
     
     outlier() {
@@ -252,11 +219,4 @@ class Algorithm {
 }
 
 let algo = new Algorithm(input);
-printErr(N);
-printErr(algo.dataList);
-printErr(algo.average());
-printErr(algo.outlier());
-//printErr(algo.o1());
-//printErr(algo.on());
-printErr(algo.o2n());
 console.log(algo.complexity());
